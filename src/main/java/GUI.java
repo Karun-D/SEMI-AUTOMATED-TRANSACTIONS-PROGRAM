@@ -34,24 +34,28 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 public class GUI extends JFrame {
-
     // Constants for frame/panel sizes
     private static final int WIDTH = 200 * 3;
     private static final int HEIGHT = (int)(300 * 1.5);
 
+    // Constants for text console size
     private static final int LINES = 15;
     private static final int CHAR_PER_LINE = 30;
 
+    // Textfields, textbox, and ComboBoxes for user IO
     private static JTextField incomeField;
     private static JTextField expenseField;
-    private static int incomeVendorCounter = 0;
-    private static int expenseVendorCounter = 0;
     private static JComboBox incomeCategories;
     private static JComboBox expenseCategories;
+    private static JTextArea memoDisplay;
+
+    // Default categories for income and expense transactions
     private static String income_transaction_category = "Direct Deposit";
     private static String expense_transaction_category = "Textbooks";
 
-    private static JTextArea memoDisplay;
+    // Used to keep track of the number of vendors that are classified by the user using the GUI
+    private static int incomeVendorCounter = 0;
+    private static int expenseVendorCounter = 0;
 
     // Used to store each transaction in csv_file as a list of Transaction objects
     private static ArrayList<Transaction> transaction_list = new ArrayList<Transaction>();
@@ -65,10 +69,13 @@ public class GUI extends JFrame {
     private static HashMap<String,String[]> recognized_income_vendors;
     private static HashMap<String,String[]> recognized_expense_vendors;
 
-    // Used to save vendors and their corresponding transaction category (non-recognized)
+    // Used to save vendors and their corresponding transaction category that are still yet to be classified
     private static ArrayList<String> non_recognized_income_vendors = new ArrayList<String>();
     private static ArrayList<String> non_recognized_expense_vendors = new ArrayList<String>();
 
+    /**
+     * Used to retrieve the category of an income transaction from the JComboBox
+     */
     private class incomeCategoryListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             // Cast actionEvent to type ComboBox
@@ -79,6 +86,9 @@ public class GUI extends JFrame {
         }   
     }
 
+    /**
+     * Used to retrieve the category of an expense transaction from the JComboBox
+     */
     private class expenseCategoryListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             // Cast actionEvent to type ComboBox
@@ -89,6 +99,9 @@ public class GUI extends JFrame {
         }   
     }
 
+    /**
+     * Used to classify unrecognized income vendors
+     */
     private class incomeVendorListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             String income_categories[] = {"Direct Deposit", "E-Transfers", "Opt-out Services", "Tax Return", "Gov. Benefit"};
@@ -98,29 +111,35 @@ public class GUI extends JFrame {
             String row_value = "";
             int numerical_row_value = 15; 
 
+            // Loops until all income vendors are classified by the user
             if (incomeVendorCounter < non_recognized_income_vendors.size()){
+                
+                // Calculates the position of the transaction category in the array
                 for (int i = 0; i < income_categories.length; i++){
                     if (income_categories[i].equals(transaction_category)){
                         index = i;
                     }
                 }
 
+                // Computes the row value by adding the index to the default category (Direct Deposit = 15)
                 row_value = String.valueOf(numerical_row_value + index);
 
                 System.out.println(transaction_category);
                 System.out.println(row_value);
 
-                // Update the values of all transactions with the current vendor
+                // Updates the row values and categories of all transactions with the current vendor
                 for (Transaction transaction : income_transaction_vendors.get(vendor)){
                     transaction.setCategory(transaction_category);
                     transaction.setRowValue(row_value);
                 }
 
-                // Add unrecognized vendor to HashMap
+                // Adds vendor to HashMap so the vendor is no longer unclassified
                 recognized_income_vendors.put(vendor, new String[]{transaction_category, row_value});
 
+                // Increase vendor count to show that there is one less unrecognized vendor
                 incomeVendorCounter++;
                 
+                // If there are still unclassfied vendors, iterate to the next one
                 if (incomeVendorCounter != non_recognized_income_vendors.size()){
                     incomeField.setText(non_recognized_income_vendors.get(incomeVendorCounter));
                 } else {
@@ -132,6 +151,9 @@ public class GUI extends JFrame {
         }
     } 
 
+    /**
+     * Used to classify unrecognized expense vendors
+     */
     private class expenseVendorListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             String expense_categories[] = {"Textbooks", "Groceries", "Coffee", "Gym", "Spotify/Netflix", "Dining", "Leisure Activities", "Clothes", "E-Transfers", "Other Purchases"};
@@ -143,29 +165,35 @@ public class GUI extends JFrame {
             String row_value = "";
             int numerical_row_value = 2; 
 
+            // Loops until all expense vendors are classified by the user
             if (expenseVendorCounter < non_recognized_expense_vendors.size()){
+                
+                // Calculates the position of the transaction category in the array
                 for (int i = 0; i < expense_categories.length; i++){
                     if (expense_categories[i].equals(transaction_category)){
                         index = i;
                     }
                 }
 
+                // Computes the row value by adding the index to the default category (Textbooks = 2)
                 row_value = String.valueOf(numerical_row_value + index);
 
                 System.out.println(transaction_category);
                 System.out.println(row_value);
 
-                // Update the values of all transactions with the current vendor
+                 // Updates the row values and categories of all transactions with the current vendor
                 for (Transaction transaction : expense_transaction_vendors.get(vendor)){
                     transaction.setCategory(transaction_category);
                     transaction.setRowValue(row_value);
                 }
 
-                // Add unrecognized vendor to HashMap
+                // Adds vendor to HashMap so the vendor is no longer unclassified
                 recognized_expense_vendors.put(vendor, new String[]{transaction_category, row_value});
 
+                 // Increase vendor count to show that there is one less unrecognized vendor
                 expenseVendorCounter++;
                 
+                // If there are still unclassfied vendors, iterate to the next one
                 if (expenseVendorCounter != non_recognized_expense_vendors.size()){
                     expenseField.setText(non_recognized_expense_vendors.get(expenseVendorCounter));
                 } else {
@@ -178,6 +206,9 @@ public class GUI extends JFrame {
         }
     } 
 
+    /**
+     * Used to tell user about the process of transaction upload
+     */
     private class updateListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             memoDisplay.setText("Updating Spreadsheet cells... ");
@@ -192,6 +223,9 @@ public class GUI extends JFrame {
         }
     } 
 
+    /**
+     * Used to quit program
+     */
     private class quitListener implements ActionListener {
         public void actionPerformed(ActionEvent e){
             // Serialize vendors to automate the classification of future transactions
@@ -254,51 +288,35 @@ public class GUI extends JFrame {
         incomeVendorPanel.add(incomeField, BorderLayout.CENTER);
         incomeField.setEditable(false);
 
+        // Income Vendors Panel
         String[] categories = {"Direct Deposit", "E-Transfers", "Opt-out Services", "Tax Return", "Gov. Benefit"};
         incomeCategories = new JComboBox<String>(categories);
         incomeCategories.addActionListener(new incomeCategoryListener());
-       // typeFincomeFieldield.addActionListener(new comboListener());
         incomeVendorPanel.add(incomeCategories, BorderLayout.SOUTH);
-
         incomeContentPanel.add(incomeVendorPanel, BorderLayout.CENTER);
 
+        // Income Button Panel
         JPanel incomeButtonPanel = new JPanel();
         incomeButtonPanel.setLayout(new BorderLayout());
         JButton incomeButton = new JButton("Classify");
         incomeButton.addActionListener(new incomeVendorListener());
-
-
-        //incomeContentPanel.add(incomeButton, BorderLayout.EAST);
         incomeButtonPanel.add(incomeButton, BorderLayout.CENTER);
+
+        // White Space
         JPanel blank = new JPanel();
         blank.setBackground(Color.darkGray);
         blank.setPreferredSize(new Dimension(15,0));
         incomeButtonPanel.add(blank,BorderLayout.WEST);
         blank.setBackground(Color.darkGray);
+
+        // Add panels to main Income Panel
         incomeContentPanel.add(incomeButtonPanel, BorderLayout.EAST);
         incomeButtonPanel.setBackground(Color.DARK_GRAY);
-        
-
-
-
         incomeButton.setFont(new Font("Calibri", Font.BOLD, 26));
-
-
         incomeVendorPanel.setBackground(Color.darkGray);
         incomeVendor.setForeground(Color.CYAN);
-
         incomePanel.add(incomeContentPanel, BorderLayout.CENTER);
         add(incomePanel);
-
-
-
-
-
-
-
-
-
-
 
         // Main Income Panel
         JPanel expensePanel = new JPanel();
@@ -328,23 +346,22 @@ public class GUI extends JFrame {
         expenseField.setEditable(false);
         expenseVendorPanel.add(expenseField, BorderLayout.CENTER);
 
+        // Expense Vendors Panel
         String[] categoriesTwo = {"Textbooks", "Groceries", "Coffee", "Gym", "Spotify/Netflix", "Dining", "Leisure Activities", "Clothes", "E-Transfers", "Other Purchases"};
         expenseCategories = new JComboBox<String>(categoriesTwo);
         expenseCategories.addActionListener(new expenseCategoryListener());
-       // typeFincomeFieldield.addActionListener(new comboListener());
         expenseVendorPanel.add(expenseCategories, BorderLayout.SOUTH);
-
         expenseContentPanel.add(expenseVendorPanel, BorderLayout.CENTER);
+
+        // Expense Button Panel
         JPanel expenseButtonPanel = new JPanel();
         expenseButtonPanel.setLayout(new BorderLayout());
         JButton expenseButton = new JButton("Classify");
         expenseButton.addActionListener(new expenseVendorListener());
-
-
-
-        //expenseContentPanel.add(expenseButton, BorderLayout.EAST);
         expenseButtonPanel.add(expenseButton, BorderLayout.CENTER);
         expenseButtonPanel.setBackground(Color.DARK_GRAY);
+
+        // White Space
         JPanel blankTwo= new JPanel();
         blankTwo.setBackground(Color.darkGray);
         blankTwo.setPreferredSize(new Dimension(15,0));
@@ -352,17 +369,12 @@ public class GUI extends JFrame {
         blankTwo.setBackground(Color.darkGray);
         expenseContentPanel.add(expenseButtonPanel, BorderLayout.EAST);
 
-
-
+        // Main Expense Panel
         expenseButton.setFont(new Font("Calibri", Font.BOLD, 26));
-
-
         expenseVendorPanel.setBackground(Color.darkGray);
         expenseVendor.setForeground(Color.CYAN);
-
         expensePanel.add(expenseContentPanel, BorderLayout.CENTER);
         add(expensePanel);
-
 
         // Create South Panel
         JPanel southAddPanel = new JPanel();
@@ -395,8 +407,10 @@ public class GUI extends JFrame {
         add(southAddPanel);
 
     }
+
     public static void main (String args[]) {
-        GUI window = new GUI();                                             // Create GUI 
+        // Initialize GUI 
+        GUI window = new GUI();                                            
         window.setVisible(true);
        
         // Initialize Recognized Vendors using serialized file
@@ -411,7 +425,11 @@ public class GUI extends JFrame {
         }
 
         // Read CSV file and store file as a list of Transaction objects
-        TransactionUtilities.initializeTransactionList(transaction_list, "SIMPLII.csv");
+        if (args == 0) {
+            TransactionUtilities.initializeTransactionList(transaction_list, "SIMPLII.csv");
+        } else {
+            TransactionUtilities.initializeTransactionList(transaction_list, args[0]);
+        }
 
         // Label the vendor type as an income source or an expense source
         TransactionUtilities.classifyVendors(transaction_list, income_transaction_vendors, expense_transaction_vendors);
@@ -423,12 +441,14 @@ public class GUI extends JFrame {
         TransactionUtilities.computeNonRecognizedIncomeVendors(non_recognized_income_vendors, income_transaction_vendors, recognized_income_vendors);
         TransactionUtilities.computeNonRecognizedExpenseVendors(non_recognized_expense_vendors, expense_transaction_vendors, recognized_expense_vendors);
 
+        // If there are unclassfied income vendors after reading the serialized object, start classification process
         if (non_recognized_income_vendors.size() > 0) {
             incomeField.setText(non_recognized_income_vendors.get(0));
         } else {
             incomeField.setText(" ALL INCOME VENDORS ARE RECOGNIZED");
         }
 
+        // If there are unclassfied income vendors after reading the serialized object, start classification process
         if (non_recognized_expense_vendors.size() > 0) {
             expenseField.setText(non_recognized_expense_vendors.get(0));
         } else {
