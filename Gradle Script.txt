@@ -1,0 +1,39 @@
+Classify each vendor: 
+         (0) Direct Deposit
+         (1) E-Transfers
+         (2) Opt-out Services
+         (3) Tax Return
+         (4) Gov. Benefit
+INTERAC E-TRANSFER RECEIVE KANVAR RANA: 
+1
+INTERAC E-TRANSFER RECEIVE Nikhil Jain: 
+1
+INTERAC E-TRANSFER RECEIVE MANSI NARULA: 
+1
+PAYROLL DEPOSIT WAL-MART CANADA INC: 
+0
+EFT CREDIT U_OF_GUELPH_PMT: 
+2
+INTERAC E-TRANSFER RECEIVE HAR KRISHEN SINGH SIHRA: 
+1
+EFT CREDIT CANADA: 
+4
+Classify each vendor: 
+         (0) Textbooks
+         (1) Groceries
+         (2) Coffee
+         (3) Gym
+         (4) Spotify/Netflix
+         (5) Dining
+         (6) Leisure Activities
+         (7) Clothes
+         (8) E-Transfers
+         (9) Other Purchases
+INTERNET BILL PAYMENT AMERICAN EXPRESS REGULAR: 
+9
+POS MERCHANDISE MCDONALD'S #656: 
+5
+INTERAC E-TRANSFER SEND Azmat Alvi: 
+8
+INTERNET BILL PAYMENT UNIV OF GUELPH - RESIDENC: 
+8
