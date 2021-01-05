@@ -4,8 +4,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
 This project was built to automate the process of tracking my financial data. Instead of manually entering the transactions into a Google Sheet, this program does it for you by reading a monthly bank statement via the command line. 
 
 It is the responsibility of the user to categorize each transaction if the program does not recognize the vendor. Recognized vendors are serialized into a file and read back into the application for future uses. This process allows the program to automate future reads. 
@@ -14,7 +12,6 @@ It is the responsibility of the user to categorize each transaction if the progr
 
 * [Java with Gradle](https://gradle.org/install/)
 * [Google Sheets API](https://developers.google.com/sheets/api/quickstart/java)
-* []()
 
 ### Prerequisites
 
@@ -26,7 +23,7 @@ It is the responsibility of the user to categorize each transaction if the progr
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/Karun-D/semi-automated-transactions.git
    ```
 2. Insert credentials.json file into src/main/resources/
 3. Insert link of custom spreadsheet src/main/java/SheetsAPI.java into the variable "spreadsheetID" on lines 73 and 106
