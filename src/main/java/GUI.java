@@ -426,7 +426,7 @@ public class GUI extends JFrame {
 
         // Read CSV file and store file as a list of Transaction objects
         if (args.length == 0) {
-            TransactionUtilities.initializeTransactionList(transaction_list, "SIMPLII.csv");
+            TransactionUtilities.initializeTransactionList(transaction_list, "test_file.csv");
         } else {
             TransactionUtilities.initializeTransactionList(transaction_list, args[0]);
         }
