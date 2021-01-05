@@ -8,6 +8,9 @@ This project was built to automate the process of tracking my financial data. In
 
 It is the responsibility of the user to categorize each transaction if the program does not recognize the vendor. Recognized vendors are serialized into a file and read back into the application for future uses. This process allows the program to automate future reads. 
 
+# Demo
+![](demo.gif)
+
 ### Built With
 
 * [Java with Gradle](https://gradle.org/install/)
