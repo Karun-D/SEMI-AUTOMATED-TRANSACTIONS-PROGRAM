@@ -32,7 +32,7 @@ It is the responsibility of the user to categorize each transaction if the progr
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Enter name of the textfile into the following command
+Enter name of the .csv into the following command
   ```sh
    gradle run --console=plain --args='<FILENAME>'  
    ```
