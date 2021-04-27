@@ -1,5 +1,5 @@
 <!-- PROJECT Title -->
-# Semi-automated Transactions
+# Automatic Transaction Handler
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
